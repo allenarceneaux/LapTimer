@@ -1,0 +1,47 @@
+flight_date      ,model_name      ,flight_count ,duration ,model_id    
+# api_ver=1
+2023-08-26 08:29 ,Carbon Cub 2.1m ,21           ,410      ,model14.yml 
+2023-08-26 10:14 ,Carbon Cub 2.1m ,22           ,412      ,model14.yml 
+2023-09-01 16:23 ,FMS Fox 2300    ,1            ,591      ,model21.yml 
+2023-09-02 14:29 ,FMS Fox 2300    ,3            ,530      ,model14.yml 
+2023-09-02 15:17 ,Laser 260       ,5            ,809      ,model22.yml 
+2023-09-04 14:21 ,Laser 260       ,8            ,533      ,model22.yml 
+2023-09-04 14:59 ,Laser 260       ,9            ,489      ,model22.yml 
+2023-09-09 09:59 ,Carbon Cub 2.1m ,24           ,490      ,model8.yml  
+2023-09-09 10:40 ,Twin Timber     ,17           ,329      ,model10.yml 
+2023-09-09 11:05 ,Carbon Cub 2.1m ,25           ,508      ,model8.yml  
+2023-09-09 11:35 ,Twin Timber     ,18           ,324      ,model10.yml 
+2023-09-09 11:46 ,Carbon Cub 2.1m ,26           ,433      ,model8.yml  
+2023-09-10 14:25 ,Timber X        ,16           ,302      ,model17.yml 
+2023-09-10 16:01 ,Timber X        ,18           ,792      ,model17.yml 
+2023-09-10 16:57 ,Eratic3D        ,32           ,43       ,model13.yml 
+2023-09-10 17:06 ,Eratic3D        ,33           ,502      ,model13.yml 
+2023-09-10 17:15 ,Eratic3D        ,34           ,178      ,model13.yml 
+2023-09-14 14:50 ,Flex RV-8       ,16           ,577      ,model12.yml 
+2023-09-14 15:25 ,Laser 260       ,12           ,391      ,model6.yml  
+2023-09-14 16:34 ,Flex RV-8       ,17           ,436      ,model12.yml 
+2023-09-14 17:58 ,Laser 260       ,13           ,504      ,model6.yml  
+2023-09-14 20:04 ,Flex RV-8       ,18           ,395      ,model12.yml 
+2023-09-15 10:23 ,Laser 260       ,14           ,372      ,model6.yml  
+2023-09-16 07:39 ,Flex RV-8       ,20           ,459      ,model12.yml 
+2023-10-14 09:33 ,Carbon Cub 2.1m ,27           ,284      ,model8.yml  
+2023-10-14 10:06 ,Carbon Cub 2.1m ,28           ,427      ,model8.yml  
+2023-10-14 11:30 ,Carbon Cub 2.1m ,29           ,527      ,model8.yml  
+2023-10-15 14:23 ,Carbon Cub 2.1m ,30           ,377      ,model8.yml  
+2023-11-13 18:37 ,Extra 260       ,1            ,48       ,model6.yml  
+2023-12-13 12:37 ,Carbon Cub 2.1m ,31           ,32       ,model23.yml 
+2023-12-13 15:12 ,Extra 260       ,5            ,104      ,model6.yml  
+2023-12-13 15:35 ,Carbon Cub 2.1m ,32           ,475      ,model23.yml 
+2023-12-13 16:23 ,Extra 260       ,6            ,469      ,model6.yml  
+2023-12-15 13:30 ,Extra 260       ,8            ,315      ,model6.yml  
+2023-12-16 10:43 ,Timber X        ,23           ,450      ,model9.yml  
+2023-12-16 11:11 ,Carbon Cub 2.1m ,33           ,572      ,model23.yml 
+2023-12-16 11:45 ,Timber X        ,24           ,429      ,model9.yml  
+2023-12-16 12:13 ,Carbon Cub 2.1m ,34           ,388      ,model23.yml 
+2023-12-19 17:45 ,Bushmaster      ,3            ,460      ,model17.yml 
+2023-12-19 17:59 ,Bushmaster      ,4            ,456      ,model17.yml 
+2023-12-20 14:46 ,Extra 260       ,11           ,428      ,model20.yml 
+2023-12-20 15:01 ,Bushmaster      ,5            ,421      ,model9.yml  
+2023-12-20 15:31 ,Extra 260       ,12           ,255      ,model20.yml 
+2023-12-20 16:14 ,Extra 260       ,13           ,368      ,model20.yml 
+2023-12-20 17:37 ,Bushmaster      ,7            ,447      ,model9.yml  

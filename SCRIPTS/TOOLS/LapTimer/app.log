@@ -1,0 +1,52 @@
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST
+[LapTimer][INFO] selected_date: 2023-12-30
+[LapTimer][INFO] state_DATE_LIST
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-31
+[LapTimer][INFO] state_TIME_LIST
+[LapTimer][INFO] selected_date: 2023-12-31
+[LapTimer][INFO] state_DATE_LIST
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-29
+[LapTimer][INFO] state_TIME_LIST
+[LapTimer][INFO] selected_date: 2023-12-29
+[LapTimer][INFO] state_TIME_LIST --> selected time: 04.05.00
+[LapTimer][INFO] state_LAP_TIMES
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-29 04.05.00.csv
+[LapTimer][INFO] state_TIME_LIST
+[LapTimer][INFO] selected_date: 2023-12-29
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.05.44
+[LapTimer][INFO] state_LAP_TIMES
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-29 03.05.44.csv
+[LapTimer][INFO] state_TIME_LIST
+[LapTimer][INFO] selected_date: 2023-12-29
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-31
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-29
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.05.44
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-29 03.05.44.csv
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.05.44
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-29 03.05.44.csv
+[LapTimer][INFO] state_TIME_LIST --> selected time: 04.05.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-29 04.05.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 07.05.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 07.05.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 07.05.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 07.05.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.00.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 03.00.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.00.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 03.00.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 07.05.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 07.05.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.00.00
+[LapTimer][INFO] opening filename: /Laps/LAPTIMES.2023-12-30 03.00.00.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
+[LapTimer][INFO] state_TIME_LIST --> selected time: 01.05.00
+[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2023-12-30 01.05.00.csv
+[LapTimer][INFO] Reading config file
