@@ -48,9 +48,9 @@ local MAX_LAP_COUNT = 11
 -- Configuration Variables
 --
 
-local ConfigThrottleChannelNumber = 3  --   3 for AETR,   1 for TAER
-local ConfigThrottleChannel = 'ch3'    -- ch3 for AETR, ch1 for TAER
-local ConfigLapSwitch = 'sh'           -- sh on Radiomaster TX16S, se on Taranis X9 Lite
+local ConfigThrottleChannelNumber = 2  --   3 for AETR,   1 for TAER
+local ConfigThrottleChannel = 'ch2'    -- ch3 for AETR, ch1 for TAER
+local ConfigLapSwitch = 'sc'           -- sh on Radiomaster TX16S, se on Taranis X9 Lite
 local ConfigSpeakGoodBad = true
 local ConfigSpeakLapNumber = true
 local ConfigBeepOnMidLap = true

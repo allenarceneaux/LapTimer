@@ -6,7 +6,7 @@
 -- Reset to zero by Timer switch being set to off and Lap switch set on.
 -- Default Timer switch is "ls1" (logical switch one).
 -- OpenTX "ls1" set to a>x, THR, -100
--- Default Lap switch is "sh", a momentary switch.
+-- Default Lap switch is "sh", a momentary switch
 
 -- Change as desired
 -- sa to sh, ls1 to ls32
@@ -16,7 +16,7 @@ local TimerSwitch = "ls1"
 -- Position U (up/away from you), D (down/towards), M (middle)
 -- When using logical switches use "U" for true, "D" for false
 local TimerSwitchOnPosition = "U"
-local LapSwitch = "sh"
+local LapSwitch = "sc"
 local LapSwitchRecordPosition = "U"
 
 -- Audio
@@ -59,30 +59,55 @@ local function getMinutesSecondsHundrethsAsString(milliseconds)
   return (string.format("%01d:%05.2f", minutes, seconds))
 end
 
-local lastLapSwitchValue = -1
+
+local swLastChanged = {}
 local function getSwitchPosition(switchID)
   -- Returns switch position as one of U, D, M
   -- Passed a switch identifier sa to sf, ls1 to ls32
   local switchValue = getValue(switchID)
-
-  -- Debounce the LapSwitch
-  if switchID == LapSwitch then
-    if switchValue == lastLapSwitchValue then
-      return " "
-    end
-    lastLapSwitchValue = switchValue  
+  if swLastChanged[switchID] == nil then
+    swLastChanged[switchID] = switchValue
   end
-
-  -- typical Tx switch middle value is
+  if swLastChanged[switchID] ~= switchValue then
+    swLastChanged[switchID] = switchValue
+  end
+  print("switchID: "..switchID.." switchValue: "..switchValue)
   if switchValue < -100 then
+    print("D")
     return "D"
   elseif switchValue < 100 then
+    print("M")
     return "M"
   else
+    print("U")
     return "U"
   end
 end
 
+-- local lastLapSwitchValue = -1
+-- local function getSwitchPosition(switchID)
+--   -- Returns switch position as one of U, D, M
+--   -- Passed a switch identifier sa to sf, ls1 to ls32
+--   local switchValue = getValue(switchID)
+
+--   -- Debounce the LapSwitch
+--   if switchID == LapSwitch then
+--     if switchValue == lastLapSwitchValue then
+--       return " "
+--     end
+--     lastLapSwitchValue = switchValue  
+--   end
+-- -- print("switchID: "..switchID.." switchValue: "..switchValue)
+
+--   -- typical Tx switch middle value is
+--   if switchValue < -100 then
+--     return "D"
+--   elseif switchValue < 100 then
+--     return "M"
+--   else
+--     return "U"
+--   end
+-- end
 
 local function handleSounds()
   if BeepOnLap == true then
@@ -120,7 +145,9 @@ end
 local function bg_func()
   
   local timerSwitchValue = getSwitchPosition(TimerSwitch)
+  print("timerSwitchValue: "..timerSwitchValue)
   local lapSwitchValue = getSwitchPosition(LapSwitch)
+  print("lapSwitchValue: "..lapSwitchValue)
 
 
   -- Start recording time
