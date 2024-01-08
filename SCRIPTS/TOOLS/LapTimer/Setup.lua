@@ -340,11 +340,6 @@ local function drawScreen(event, touchState)
     elseif field==4 then
         ConfigBeepOnMidLap = valueToggle(event, ConfigBeepOnMidLap)
     end
-
-    if not edit and event == EVT_VIRTUAL_EXIT then
-        config_write()
-    end
-
     return 0
 end
 
@@ -358,6 +353,7 @@ function run(event, touchState)
     end
 
     if not edit and event == EVT_VIRTUAL_EXIT then
+        config_write()
         return "MainMenu"
     end
 
