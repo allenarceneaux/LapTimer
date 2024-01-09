@@ -18,9 +18,9 @@
 -- Date: 2024
 
 local c = loadScript("common")()
-local m_log = loadScript("lib_log")(c.app_name, c.script_folder)
-local m_lib_tbl = loadScript("lib_tbl")(m_log)
-local m_libpage = loadScript("scroller")()
+local log = loadScript("lib_log")(c.app_name, c.script_folder)
+local tbl = loadScript("lib_tbl")(log)
+local page = loadScript("scroller")()
 
 local fnames = {}
 
@@ -38,20 +38,15 @@ local timesScroller = nil
 local lapScroller = nil
 
 -- Instantiate a new GUI object
-local datePage = m_libpage.newPage()
-local timePage = m_libpage.newPage()
-local lapTimePage = m_libpage.newPage()
+local datePage = page.newPage()
+local timePage = page.newPage()
+local lapTimePage = page.newPage()
 
 local date_list_active = false
 local time_list_active = false
 local lap_times_active = false
 
 --------------------------------------------------------------
-local function log(fmt, ...)
-    m_log.info(fmt, ...)
-end
---------------------------------------------------------------
-
 local function drawCenterText(y, text, flags)
     local sz =5 * #text
     lcd.drawText(LCD_W/2-sz/2, y, text, flags)
@@ -68,7 +63,7 @@ local function state_DATE_LIST(event, touchState)
         drawCenterText(LCD_H/2, "Loading...", SMLSIZE)
 
         -- filter to just csv files
-        local dates = m_lib_tbl.newTbl()
+        local dates = tbl.newTbl()
         fnames = {}
         for fname in dir(c.data_folder) do
             if string.match(fname, ".csv") then
@@ -88,11 +83,11 @@ local function state_DATE_LIST(event, touchState)
             if selection == EVT_VIRTUAL_EXIT then
                 state = STATE.EXIT
             else
-                log("state_DATE_LIST --> selected date: %s", selection)
+                log.info("state_DATE_LIST --> selected date: %s", selection)
                 if selection == "No Lap files found" then
-                    m_log.warn("state_DATE_LIST_refresh: trying to go to next page, but no Lap files available, ignoring.")
+                    log.warn("state_DATE_LIST_refresh: trying to go to next page, but no Lap files available, ignoring.")
                     date_list_active = false
-                    dateGui = m_libgui.newGUI()
+                    datePage = page.newPage()
                     return 0
                 end
                 time_list_active = false
@@ -119,7 +114,7 @@ local function state_TIME_LIST(event, touchState)
 
         -- filter times from selected date
         local selected_date = dateScroller.items[dateScroller.selected]     
-        local times = m_lib_tbl.newTbl()
+        local times = tbl.newTbl()
 
         for k,v in pairs(fnames) do
             if string.sub(k, 1, 10) == selected_date then
@@ -132,7 +127,7 @@ local function state_TIME_LIST(event, touchState)
                 date_list_active = false
                 state = STATE.DATE_LIST
             else
-                log("state_TIME_LIST --> selected time: %s", selection)
+                log.info("state_TIME_LIST --> selected time: %s", selection)
                 lap_times_active = false
                 state = STATE.LAP_TIMES
             end
@@ -158,14 +153,14 @@ local function findFile(date)
 end 
 
 local function loadFile(filename)
-    local lapTimes = m_lib_tbl.newTbl()
+    local lapTimes = tbl.newTbl()
 
-    log("opening filename: %s", filename)
+    log.info("opening filename: %s", filename)
 
     local info = fstat(filename)
     local lFile = io.open(filename, "r")
     if lFile == nil then
-        log(filename.." Not found")
+        log.error(filename.." Not found")
         return nil
     end
 
@@ -204,7 +199,7 @@ local function state_LAP_TIMES(event, touchState)
 
         local lapTimes = loadFile(filename)
         if lapTimes == nil then
-            lapTimes = m_lib_tbl.newTbl()
+            lapTimes = tbl.newTbl()
             lapTimes.insert(filename.." Not found")
         end
     
@@ -231,9 +226,8 @@ function run(event, touchState)
         return 2
     end
 
-    -- log("run() ---------------------------")
-    -- log("event: %s", event)
-    -- print("event: %s", event)
+    -- log.info("run() ---------------------------")
+    -- log.info("event: %s", event)
 
     lcd.clear()
     lcd.drawScreenTitle("LAP TIMER VIEWER", state.page, state.of)

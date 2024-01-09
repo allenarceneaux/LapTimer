@@ -17,17 +17,13 @@
 -- Author: Allen Arceneaux
 -- Date: 2023
 
-local m_log = ...
+local log = ...
 
 local lib = {}
 function lib.newTbl()
     local tbl = {
         arr = {}
     }
-
-    local function log(fmt, ...)
-        m_log.info(fmt, ...)
-    end
 
     function tbl.items()
         return tbl.arr
@@ -79,7 +75,7 @@ function lib.newTbl()
     end
 
     function tbl.dump()
-       log("tbl dump")
+       log.info("tbl dump")
         for _, k in ipairs(tbl.arr) do
             print(k)
             log(k)

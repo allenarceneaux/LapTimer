@@ -1,38 +1,38 @@
--- Description
+---- #########################################################################
+---- #                                                                       #
+---- # License GPLv3: https://www.gnu.org/licenses/gpl-3.0.html              #
+---- #                                                                       #
+---- # This program is free software; you can redistribute it and/or modify  #
+---- # it under the terms of the GNU General Public License version 2 as     #
+---- # published by the Free Software Foundation.                            #
+---- #                                                                       #
+---- # This program is distributed in the hope that it will be useful        #
+---- # but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+---- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+---- # GNU General Public License for more details.                          #
+---- #                                                                       #
+---- #########################################################################
 
--- Displays time elapsed in minutes, seconds and milliseconds.
--- Timer activated by a physical or logical switch.
--- Lap recorded by a second physical or logical switch.
--- Reset to zero by Timer switch being set to off and Lap switch set on.
--- Default Timer switch is "ls1" (logical switch one).
--- OpenTX "ls1" set to a>x, THR, -100
--- Default Lap switch is "sh", a momentary switch
+-- This script will handle the actuall lap counting for the lap timer system
+-- Author: Allen Arceneaux
+-- Date: 2024
 
--- Change as desired
--- sa to sh, ls1 to ls32
--- If you want the timer to start and stop when the throttle is up and down
--- create a logical switch that changes state based on throttle position.
-local TimerSwitch = "ls1"
--- Position U (up/away from you), D (down/towards), M (middle)
--- When using logical switches use "U" for true, "D" for false
-local TimerSwitchOnPosition = "U"
-local LapSwitch = "sc"
-local LapSwitchRecordPosition = "U"
+chdir("/SCRIPTS/TOOLS/LapTimer")
+
+local c = loadScript("common")()
+local log = loadScript("lib_log")(c.app_name, c.script_folder)
+local config = loadScript("Config")(log, c)
 
 -- Audio
-local SpeakLapTime = false
-local SpeakLapNumber = false
-local SpeakLapTimeHours = 0 -- 1 hours, minutes, seconds else minutes, seconds
-
-local BeepOnLap = true
 local BeepFrequency = 200 -- Hz
 local BeepLengthMilliseconds = 200
 
--- File Paths
--- location you placed the accompanying sound files
-local SoundFilesPath = "/SCRIPTS/SOUNDS/LapTmr/"
+local SoundFilesPath = c.script_folder.."/SOUNDS/"
 
--- ----------------------------------------------------------------------------------------
+-- --------------------------------------------------------------
+local function iif(cond, T, F)
+	if cond then return T else return F end
+end
 -- ----------------------------------------------------------------------------------------
 
 -- Time Tracking
@@ -41,11 +41,12 @@ local ElapsedTimeMilliseconds = 0
 local PreviousElapsedTimeMilliseconds = 0
 local LapTime = 0
 local LapTimeList = {ElapsedTimeMilliseconds}
-local LapTimeRecorded = false
 
 -- Display
 local TextSize = SMLSIZE
 local TextHeight = 6
+
+--------------------------------------------------------------
 
 local function getTimeMilliseconds()
   local now = getTime() * 10
@@ -59,71 +60,21 @@ local function getMinutesSecondsHundrethsAsString(milliseconds)
   return (string.format("%01d:%05.2f", minutes, seconds))
 end
 
-
-local swLastChanged = {}
-local function getSwitchPosition(switchID)
-  -- Returns switch position as one of U, D, M
-  -- Passed a switch identifier sa to sf, ls1 to ls32
-  local switchValue = getValue(switchID)
-  if swLastChanged[switchID] == nil then
-    swLastChanged[switchID] = switchValue
-  end
-  if swLastChanged[switchID] ~= switchValue then
-    swLastChanged[switchID] = switchValue
-  end
-  print("switchID: "..switchID.." switchValue: "..switchValue)
-  if switchValue < -100 then
-    print("D")
-    return "D"
-  elseif switchValue < 100 then
-    print("M")
-    return "M"
-  else
-    print("U")
-    return "U"
-  end
-end
-
--- local lastLapSwitchValue = -1
--- local function getSwitchPosition(switchID)
---   -- Returns switch position as one of U, D, M
---   -- Passed a switch identifier sa to sf, ls1 to ls32
---   local switchValue = getValue(switchID)
-
---   -- Debounce the LapSwitch
---   if switchID == LapSwitch then
---     if switchValue == lastLapSwitchValue then
---       return " "
---     end
---     lastLapSwitchValue = switchValue  
---   end
--- -- print("switchID: "..switchID.." switchValue: "..switchValue)
-
---   -- typical Tx switch middle value is
---   if switchValue < -100 then
---     return "D"
---   elseif switchValue < 100 then
---     return "M"
---   else
---     return "U"
---   end
--- end
-
 local function handleSounds()
-  if BeepOnLap == true then
+  if config.BeepOnLap == true then
     playTone(BeepFrequency, BeepLengthMilliseconds, 0)
   end
 
-  if SpeakLapNumber == true then
+  if config.SpeakLapNumber == true then
     if (#LapTimeList-1) <= 16 then
       local filePathName = SoundFilesPath..tostring(#LapTimeList-1)..".wav"
       playFile(filePathName)
     end
   end
 
-  if SpeakLapTime == true then
+  if config.SpeakLapTime == true then
     local LapTimeInt = math.floor((LapTime/1000)+0.5)
-    playDuration(LapTimeInt, SpeakLapTimeHours)
+    playDuration(LapTimeInt, 0)
   end
 
 end
@@ -142,39 +93,45 @@ local function reset()
   LapTimeList = {0}
 end
 
+local function startTimer()
+  -- Start time
+  if StartTimeMilliseconds == -1 then
+    StartTimeMilliseconds = getTimeMilliseconds()
+  end
+
+  -- Time difference
+  ElapsedTimeMilliseconds = getTimeMilliseconds() - StartTimeMilliseconds
+end
+
+local function recordLap()
+  LapTime = ElapsedTimeMilliseconds - PreviousElapsedTimeMilliseconds
+  PreviousElapsedTimeMilliseconds = ElapsedTimeMilliseconds
+  LapTimeList[#LapTimeList+1] = getMinutesSecondsHundrethsAsString(LapTime)
+  -- LapTimeRecorded = true
+
+  handleSounds()
+end
+
+local lastLapSwitchValue = false
 local function bg_func()
   
-  local timerSwitchValue = getSwitchPosition(TimerSwitch)
-  print("timerSwitchValue: "..timerSwitchValue)
-  local lapSwitchValue = getSwitchPosition(LapSwitch)
-  print("lapSwitchValue: "..lapSwitchValue)
-
+  local timerSwitchValue = getSwitchValue(config.TimerSwitch)
+  local lapSwitchValue = getSwitchValue(config.LapSwitch)
+  local lapSwitchChanged = lastLapSwitchValue ~= lapSwitchValue   -- handle debouncing the switch
+  if lapSwitchChanged then
+    lastLapSwitchValue = lapSwitchValue
+  end
 
   -- Start recording time
-  if timerSwitchValue == TimerSwitchOnPosition then
-    -- Start reference time
-    if StartTimeMilliseconds == -1 then
-      StartTimeMilliseconds = getTimeMilliseconds()
-    end
+  if timerSwitchValue then
+    startTimer()
 
-    -- Time difference
-    ElapsedTimeMilliseconds = getTimeMilliseconds() - StartTimeMilliseconds
     -- TimerSwitch and LapSwitch On so record the lap time
-    if lapSwitchValue == LapSwitchRecordPosition then
-      if LapTimeRecorded == false then
-        LapTime = ElapsedTimeMilliseconds - PreviousElapsedTimeMilliseconds
-        PreviousElapsedTimeMilliseconds = ElapsedTimeMilliseconds
-        LapTimeList[#LapTimeList+1] = getMinutesSecondsHundrethsAsString(LapTime)
-        LapTimeRecorded = true
-
-        handleSounds()
-      end
-    else
-      LapTimeRecorded = false
+    if lapSwitchChanged and lapSwitchValue then
+      recordLap()
     end
   else
-    -- TimerSwitch Off and LapSwitch On so reset time
-    if lapSwitchValue == LapSwitchRecordPosition then
+    if lapSwitchChanged and lapSwitchValue then
       reset()
     end
   end

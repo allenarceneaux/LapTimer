@@ -16,68 +16,57 @@
 -- This script gets a list of available radio switches
 -- Author: Allen Arceneaux
 -- Date: 2024
-local m_log  = ...
+local log  = ...
 
 -- --------------------------------------------------------------
-local function log(fmt, ...)
-    m_log.info(fmt, ...)
-    print(fmt,...)
+
+local switchList = {
+    list = {}
+}
+for i, s in switches() do
+    if i ~= 0 then 
+        local new_idx = #switchList.list+1
+        switchList.list[new_idx] = {idx = i, name = s}
+    end
 end
--- --------------------------------------------------------------
 
-local switchList = {}
-function switchList.new()
-    local tbl = {
-        list = {}
-    }
+function switchList.items()
+    return switchList.list
+end
 
-    for i, s in switches() do
-        if i ~= 0 then 
-            local new_idx = #tbl.list+1
-            tbl.list[new_idx] = {idx = i, name = s}
-        end
+function switchList.size()
+    return #switchList.list
+end
+
+function switchList.insert(idx, name)
+    switchList.list[#tbl.list+1] = {idx = idx, name = name}
+end
+
+function switchList.itemNames()
+    local names = {}
+    for _, k in ipairs(switchList.list) do
+        names[#names+1] = k.name
     end
+    return names
+end
 
-    function tbl.items()
-        return tbl.list
+function switchList.itemIdxs()
+    local idxs = {}
+    for _, k in ipairs(switchList.list) do
+        idxs[#idxs+1] = k.idx
     end
+    return idxs
+end
 
-    function tbl.size()
-        return #tbl.list
-    end
+function switchList.middle()
+    return #switchList.list/2
+end
 
-    function tbl.insert(idx, name)
-        tbl.list[#tbl.list+1] = {idx = idx, name = name}
+function switchList.dump()
+    log.info("switch dump")
+    for _, k in ipairs(switchList.list) do
+        log.info(k.idx.." - "..k.name)
     end
-
-    function tbl.itemNames()
-        local names = {}
-        for _, k in ipairs(tbl.list) do
-            names[#names+1] = k.name
-        end
-        return names
-    end
-
-    function tbl.itemIdxs()
-        local idxs = {}
-        for _, k in ipairs(tbl.list) do
-            idxs[#idxs+1] = k.idx
-        end
-        return idxs
-    end
-
-    function tbl.middle()
-        return #tbl.list/2
-    end
-    function tbl.dump()
-        log("switch dump")
-         for _, k in ipairs(tbl.list) do
-            print(k.idx.." - "..k.name)
-            log(k.idx.." - "..k.name)
-         end
-     end
- 
-     return tbl
 end
 
 return switchList
