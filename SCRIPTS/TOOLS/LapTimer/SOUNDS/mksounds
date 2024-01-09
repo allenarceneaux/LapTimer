@@ -1,0 +1,15 @@
+function mkaudio() {
+    say -v karen -o temp.aiff --file-format='AIFF' $1
+    ffmpeg -i temp.aiff -y -acodec pcm_s16le -ac 1 -ar 16000 $2
+    rm temp.aiff
+}
+
+
+mkaudio "Lap" lap.wav
+mkaudio "Lap times discarded" discard.wav
+mkaudio "Lap times saved" save.wav
+mkaudio "Lap timer started" started.wav
+mkaudio "Lap timer stopped" stopped.wav
+mkaudio "Lap timer reset" reset.wav
+mkaudio "Lap timer paused" paused.wav
+mkaudio "Lap timer resumed" resumed.wav

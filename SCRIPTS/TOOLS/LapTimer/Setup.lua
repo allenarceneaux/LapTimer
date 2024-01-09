@@ -23,13 +23,25 @@ local sw = loadScript("switches")(log)
 local config = loadScript("Config")(log, c)
 
 -- Navigation variables
-local page = 0
 local dirty = true
 local edit = false
 local field = 0
 
+-- state machine
+-- local PAGE = {
+--     ONE = {},
+--     TWO = {},
+--   }
+-- local page = PAGE.ONE
+local PAGE_ONE = 0  
+local PAGE_TWO = 1
+local page = PAGE_ONE
+
+  
 local swIndexes = sw.itemIdxs()
 
+-- --------------------------------------------------------------
+-- Blink the cursor
 -- --------------------------------------------------------------
 local lastBlink = 0
 local function blinkChanged()
@@ -43,6 +55,8 @@ local function blinkChanged()
     end
 end
 
+-- --------------------------------------------------------------
+-- Increment or decrement a fields
 -- --------------------------------------------------------------
 local function fieldIncDec(event, value, max, force)
     if edit or force==true then
@@ -59,6 +73,8 @@ local function fieldIncDec(event, value, max, force)
     return value
 end
 
+-- --------------------------------------------------------------
+-- Navigate the menu
 -- --------------------------------------------------------------
 local function navigate(event, fieldMax, prevPage, nextPage)
     if event == EVT_VIRTUAL_ENTER then
@@ -88,6 +104,8 @@ local function navigate(event, fieldMax, prevPage, nextPage)
 end
 
 -- --------------------------------------------------------------
+-- Get the field flags
+-- --------------------------------------------------------------
 local function getFieldFlags(position)
     flags = 0
     if field == position then
@@ -99,6 +117,8 @@ local function getFieldFlags(position)
     return flags
 end
 
+-- --------------------------------------------------------------
+-- Increment or decrement a switch
 -- --------------------------------------------------------------
 local function switchIncDec(event, value)
     local max=swIndexes[#swIndexes]
@@ -138,6 +158,8 @@ local function switchIncDec(event, value)
   end
   
 -- --------------------------------------------------------------
+-- Toggle a value
+-- --------------------------------------------------------------
 local function valueToggle(event, value)
     if edit then
         if event == EVT_VIRTUAL_DEC or event == EVT_VIRTUAL_DEC_REPT or
@@ -151,38 +173,43 @@ local function valueToggle(event, value)
 end
 
 -- --------------------------------------------------------------
+-- If condition
+
 local function iif(cond, T, F)
 	if cond then return T else return F end
 end
 
+-- --------------------------------------------------------------
+-- Show Yes or No
+-- --------------------------------------------------------------
 local function showYN(tf)
     return iif(tf, "Yes", "No")
 end
 
-
 -- --------------------------------------------------------------
--- draw setup page
+-- draw setup page One
 -- --------------------------------------------------------------
-local function drawScreen(event, touchState)
+local function drawPageOne(event, touchState)
     if dirty then
         dirty = false
         lcd.clear()
-        lcd.drawScreenTitle("LAP TIMER SETUP", 2, 2)
+        lcd.drawScreenTitle("LAP TIMER SETUP", 2, 3)
     
-        lcd.drawText(1, 12, "Timer Switch:");
+        lcd.drawText(4, 12, "Timer Switch:");
         lcd.drawSwitch(95, 12, config.TimerSwitch, getFieldFlags(0))
     
-        lcd.drawText(1, 22, "Lap Switch:");
+        lcd.drawText(4, 22, "Lap Switch:");
         lcd.drawSwitch(95, 22, config.LapSwitch, getFieldFlags(1))
+
+        lcd.drawText(4, 32, "Beep on Lap:")
+        lcd.drawText(95, 30, showYN(config.BeepOnLap), getFieldFlags(2))
+
+        lcd.drawText(4, 42, "Say Lap Number:")
+        lcd.drawText(95, 40, showYN(config.SpeakLapNumber), getFieldFlags(3))
     
-        lcd.drawText(1, 32, "Speak Lap Number:")
-        lcd.drawText(95, 30, showYN(config.SpeakLapNumber), getFieldFlags(2))
+        lcd.drawText(4, 52, "Say Lap Time:")
+        lcd.drawText(95, 50, showYN(config.SpeakLapTime), getFieldFlags(4))
     
-        lcd.drawText(1, 42, "Speak Lap Time::")
-        lcd.drawText(95, 40, showYN(config.SpeakLapTime), getFieldFlags(3))
-    
-        lcd.drawText(1, 52, "Beep on Lap:")
-        lcd.drawText(95, 50, showYN(config.BeepOnLap), getFieldFlags(4))
     end
 
     navigate(event, 4, page, page+1)
@@ -192,18 +219,49 @@ local function drawScreen(event, touchState)
     elseif field==1 then
         config.LapSwitch = switchIncDec(event, config.LapSwitch)
     elseif field==2 then
-        config.SpeakLapNumber = valueToggle(event, config.SpeakLapNumber)
-    elseif field==3 then
-        config.SpeakLapTime = valueToggle(event, config.SpeakLapTime)
-    elseif field==4 then
         config.BeepOnLap = valueToggle(event, config.BeepOnLap)
+    elseif field==3 then
+        config.SpeakLapNumber = valueToggle(event, config.SpeakLapNumber)
+    elseif field==4 then
+        config.SpeakLapTime = valueToggle(event, config.SpeakLapTime)
     end
     return 0
 end
 
+
+-- --------------------------------------------------------------
+-- draw setup page Two
+-- --------------------------------------------------------------
+local function drawPageTwo(event, touchState)
+    if dirty then
+
+print("drawPageTwo")
+        dirty = false
+        lcd.clear()
+        lcd.drawScreenTitle("LAP TIMER SETUP", 3, 3)
+    
+        lcd.drawText(1, 12, "Say Announcements:")
+        lcd.drawText(106, 12, showYN(config.SpeakAnnouncements), getFieldFlags(0))
+    
+    end
+
+    navigate(event, 0, page-1, page)
+
+    if field==0 then
+        config.SpeakAnnouncements = valueToggle(event, config.SpeakAnnouncements)
+    end
+    return 0
+end
+
+-- --------------------------------------------------------------
+-- Init
+-- --------------------------------------------------------------
 function init()
 end
 
+-- --------------------------------------------------------------
+-- Run
+-- --------------------------------------------------------------
 function run(event, touchState)
     if event == nil then
         error("Cannot be run as a model script!")
@@ -215,7 +273,11 @@ function run(event, touchState)
         return "MainMenu"
     end
 
-    return drawScreen(event, touchState)
+    if page == PAGE_ONE then
+        return drawPageOne(event, touchState)
+    elseif page == PAGE_TWO then
+        return drawPageTwo(event, touchState)
+    end
 
 end
 

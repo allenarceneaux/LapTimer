@@ -166,16 +166,15 @@ local function loadFile(filename)
 
     local fileData = io.read(lFile, info.size)
     for s in string.gmatch(fileData,"[^\r\n]+") do
+-- 2024-01-09 12:19:45,3,0:01.51
 
-        local year, month, day, hour, min, sec, lap, lapCount, lapTime, avgThrottle = string.match(s, 
-            "(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+),(%d+),(%d+),(%d+%.?%d*),(%d+)")
+        local year, month, day, hour, min, sec, lap, lapTime = string.match(s, 
+            "(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+),(%d+),(%d:%d+%.?%d*)")
 
         -- local lap = {
         --     date = year.."-"..month.."-"..day.."".. hour..":"..min..":"..sec,
         --     lap = lap,
-        --     lapCount = lapCount,
         --     lapTime = lapTime,
-        --     avgThrottle = avgThrottle
         -- }
         -- lapTimes.insert(lap)   
 

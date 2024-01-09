@@ -766,6 +766,22 @@ local function post_race_func(keyEvent)
 		discardFlag = INVERS
 	end
 
+	if keyEvent == EVT_VIRTUAL_ENTER then
+		if post_race_option == PR_SAVE then
+			laps_save()
+
+			playFile(SOUND_RACE_SAVE)
+
+			currentScreen = SCREEN_CONFIGURATION
+		elseif post_race_option == PR_DISCARD then
+			laps_reset()
+
+			playFile(SOUND_RACE_DISCARD)
+
+			currentScreen = SCREEN_CONFIGURATION
+		end
+	end
+
 	if LCD_W == 480 then
 		lcd.drawText(12, 4, 'Post Race Stats', MIDSIZE)
 		lcd.drawText(12, ROW_HEIGHT*5 + 8, ' Save ', saveFlag)

@@ -25,6 +25,7 @@ local config = {
     LapSwitch = getSwitchIndex("SH"..CHAR_UP),
     SpeakLapNumber = true,
     SpeakLapTime = true,
+	SpeakAnnouncements = true,
     BeepOnLap = true
 }
 
@@ -72,7 +73,8 @@ function config.read()
 	config.LapSwitch = tonumber(c[2])
 	config.SpeakLapNumber = (c[3] == 'true')
 	config.SpeakLapTime = (c[4] == 'true')
-	config.BeepOnLap = (c[5] == 'true')
+	config.SpeakAnnouncements = (c[5] == 'true')
+	config.BeepOnLap = (c[6] == 'true')
 
 	return true
 end
@@ -89,6 +91,7 @@ function config.write()
 	io.write(f, ',' .. config.LapSwitch)
 	io.write(f, ',' .. iif(config.SpeakLapNumber, 'true', 'false'))
 	io.write(f, ',' .. iif(config.SpeakLapTime, 'true', 'false'))
+	io.write(f, ',' .. iif(config.SpeakAnnouncements, 'true', 'false'))
 	io.write(f, ',' .. iif(config.BeepOnLap, 'true', 'false'))
 	io.close(f)
 end
@@ -101,6 +104,7 @@ function config.dump()
     log.info("LapSwitch: "..config.LapSwitch)   
     log.info("SpeakLapNumber: "..iif(config.SpeakGoodBad, 'true', 'false'))
     log.info("SpeakLapTime: "..iif(config.SpeakLapTime, 'true', 'false'))
+	log.info("SpeakAnnouncements: "..iif(config.SpeakAnnouncements, 'true', 'false'))
     log.info("BeepOnLap: "..iif(config.BeepOnLap, 'true', 'false'))
 end
 
