@@ -17,10 +17,10 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 
-local c = loadScript("common")()
-local log = loadScript("lib_log")(c.app_name, c.script_folder)
-local tbl = loadScript("lib_tbl")(log)
-local page = loadScript("scroller")()
+local c = loadScript("Common")()
+local log = loadScript("Log")(c.app_name, c.script_folder)
+local tbl = loadScript("Tbl")(log)
+local page = loadScript("Scroller")()
 
 local data_folder = c.script_folder.."/DATA"
 local fnames = {}

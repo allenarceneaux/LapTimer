@@ -1,15 +1,14 @@
 local app_name, script_dir = ...
 
-local ENABLE_LOG_TO_CONSOLE = true
-local ENABLE_LOG_TO_FILE    = true
-
+local ENABLE_LOG_TO_CONSOLE = false
+local ENABLE_LOG_TO_FILE    = false
 
 local M = {}
 M.app_name = app_name
 M.script_dir = script_dir
 
 local log = {
-    outfile = script_dir .. "/app.log",
+    outfile = script_dir .. "/"..app_name..".log",
     enable_file = ENABLE_LOG_TO_FILE,
     enable_console = ENABLE_LOG_TO_CONSOLE,
     current_level = nil,
@@ -106,5 +105,4 @@ end
 function M.fatal(fmt, ...)
     M.do_log(log.levels.fatal, "FATAL", fmt, ...)
 end
-
 return M

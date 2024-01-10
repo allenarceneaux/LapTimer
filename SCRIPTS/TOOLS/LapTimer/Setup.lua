@@ -17,9 +17,9 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 
-local c = loadScript("common")()
-local log = loadScript("lib_log")(c.app_name, c.script_folder)
-local sw = loadScript("switches")(log)
+local c = loadScript("Common")()
+local log = loadScript("Log")(c.app_name, c.script_folder)
+local sw = loadScript("Switches")(log)
 local config = loadScript("Config")(log, c)
 
 -- Navigation variables
