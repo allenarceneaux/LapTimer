@@ -17,6 +17,7 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 return {
+    version = "1.0.0",
     app_name = "LapTimer",
     script_folder = "/SCRIPTS/TOOLS/LapTimer"
 }
