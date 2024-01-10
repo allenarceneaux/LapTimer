@@ -171,14 +171,6 @@ local function loadFile(filename)
 
         local year, month, day, hour, min, sec, lap, lapTime = string.match(s, 
             "(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+),(%d+),(%d:%d+%.?%d*)")
-
-        -- local lap = {
-        --     date = year.."-"..month.."-"..day.."".. hour..":"..min..":"..sec,
-        --     lap = lap,
-        --     lapTime = lapTime,
-        -- }
-        -- lapTimes.insert(lap)   
-
         lapTimes.insert(lap.." - "..lapTime)    
     end
     io.close(lFile)
@@ -225,9 +217,6 @@ function run(event, touchState)
         error("Cannot be run as a model script!")
         return 2
     end
-
-    -- log.info("run() ---------------------------")
-    -- log.info("event: %s", event)
 
     lcd.clear()
     lcd.drawScreenTitle("LAP TIMER VIEWER", state.page, state.of)

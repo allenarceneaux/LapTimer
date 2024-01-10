@@ -72,8 +72,6 @@ function M.do_log(iLevel, ulevel, fmt, ...)
         msg = fmt
     end
 
-    --local lineinfo = "f.lua:0"
-    --local msg2 = string.format("[%-4s][%-8s] %s: %s", ulevel, M.app_name, lineinfo, msg)
     local msg2 = string.format("[%-8s][%-4s] %s", M.app_name, ulevel, msg)
 
     -- output to console

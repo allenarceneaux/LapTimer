@@ -13,7 +13,7 @@
 ---- #                                                                       #
 ---- #########################################################################
 
--- This script will handle the actuall lap counting for the lap timer system
+-- This script will handle the actual lap counting for the lap timer system
 -- Author: Allen Arceneaux
 -- Date: 2024
 
@@ -24,7 +24,7 @@ local log = loadScript("Log")(c.app_name, c.script_folder)
 local config = loadScript("Config")(log, c)
 
 -- Audio
-local BeepFrequency = 200 -- Hzd
+local BeepFrequency = 200 -- Hz
 local BeepLengthMilliseconds = 200
 
 local SoundFilesPath = c.script_folder.."/SOUNDS/"

@@ -27,12 +27,6 @@ local dirty = true
 local edit = false
 local field = 0
 
--- state machine
--- local PAGE = {
---     ONE = {},
---     TWO = {},
---   }
--- local page = PAGE.ONE
 local PAGE_ONE = 0  
 local PAGE_TWO = 1
 local page = PAGE_ONE
