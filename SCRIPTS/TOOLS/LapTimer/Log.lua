@@ -1,7 +1,7 @@
 local app_name, script_dir = ...
 
-local ENABLE_LOG_TO_CONSOLE = true
-local ENABLE_LOG_TO_FILE    = true
+local ENABLE_LOG_TO_CONSOLE = false
+local ENABLE_LOG_TO_FILE    = false
 
 local M = {}
 M.app_name = app_name
