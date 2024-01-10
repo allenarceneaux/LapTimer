@@ -20,6 +20,7 @@
 local c = loadScript("Common")()
 local log = loadScript("Log")(c.app_name, c.script_folder)
 local tbl = loadScript("Tbl")(log)
+local dateLib = loadScript("Date")(log)
 local page = loadScript("Scroller")()
 
 local data_folder = c.script_folder.."/DATA"
@@ -62,15 +63,14 @@ local function state_DATE_LIST(event, touchState)
 
         -- read Lap time file list
         drawCenterText(LCD_H/2, "Loading...", SMLSIZE)
-
         -- filter to just csv files
         local dates = tbl.newTbl()
         fnames = {}
         for fname in dir(data_folder) do
             if string.match(fname, ".csv") then
-                date = string.sub(fname, 10, 28)
-                fnames[date]=fname
-                dates.insert(string.sub(date, 1, 10))
+                local date = dateLib.parseFileName(fname)
+                fnames[#fnames+1]=fname
+                dates.insert(date.getDate())
             end
         end
 
@@ -94,14 +94,13 @@ local function state_DATE_LIST(event, touchState)
                 time_list_active = false
                 state = STATE.TIME_LIST
             end
-        end)
+        end, CENTER)
     end
     if dateScroller ~= nil then
         dateScroller.run(event, touchState)
     end
     return 0
 end
-
 
 -- --------------------------------------------------------------
 -- Show list of times
@@ -117,9 +116,10 @@ local function state_TIME_LIST(event, touchState)
         local selected_date = dateScroller.items[dateScroller.selected]     
         local times = tbl.newTbl()
 
-        for k,v in pairs(fnames) do
-            if string.sub(k, 1, 10) == selected_date then
-                times.insert(string.sub(k, 12, 19))
+        for _, v in ipairs(fnames) do
+            local date = dateLib.parseFileName(v)
+            if date.getDate() == selected_date then
+                times.insert(date.getTime())
             end
         end
 
@@ -132,7 +132,7 @@ local function state_TIME_LIST(event, touchState)
                 lap_times_active = false
                 state = STATE.LAP_TIMES
             end
-        end)
+        end, CENTER)
     end
 
     if timesScroller ~= nil then
@@ -144,9 +144,11 @@ end
 -- --------------------------------------------------------------
 -- Show lap times
 -- --------------------------------------------------------------
-local function findFile(date)
-    for k,v in pairs(fnames) do
-        if string.sub(k, 1, 19) == date then
+local function findFile(date, time)
+    local dt = dateLib.parseDateTime(date, time)
+    local fn = dateLib.getFileName(dt)
+    for _,v in ipairs(fnames) do
+        if v == fn then
             return v
         end
     end
@@ -154,7 +156,14 @@ local function findFile(date)
 end 
 
 local function loadFile(filename)
-    local lapTimes = tbl.newTbl()
+    --------------------------------------------------------------
+    -- Return Minutes, Seconds, Hundreths as a string
+    -- --------------------------------------------------------------
+    local function getMinutesSecondsHundrethsAsString(seconds)
+        local minutes = math.floor(seconds/60) -- seconds/60 gives minutes
+        seconds = seconds % 60 -- seconds % 60 gives seconds
+        return (string.format("%01d:%05.2f", minutes, seconds))
+    end
 
     log.info("opening filename: %s", filename)
 
@@ -166,15 +175,41 @@ local function loadFile(filename)
     end
 
     local fileData = io.read(lFile, info.size)
-    for s in string.gmatch(fileData,"[^\r\n]+") do
--- 2024-01-09 12:19:45,3,0:01.51
 
-        local year, month, day, hour, min, sec, lap, lapTime = string.match(s, 
-            "(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+),(%d+),(%d:%d+%.?%d*)")
-        lapTimes.insert(lap.." - "..lapTime)    
+    local lapCount = 0
+    local averageLap = 0.0
+    local bestLap = 0.0
+    local totalTime = 0.0
+    local lapTimes = tbl.newTbl()
+    for s in string.gmatch(fileData,"[^\r\n]+") do
+        lapCount = lapCount + 1
+        local year, mon, day, hour, min, sec, lapTime = string.match(s, 
+            "(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+),(%d:%d+%.?%d*)")
+
+        local minutes, seconds = string.match(lapTime, "(%d+):(%d+%.?%d*)")
+        seconds = seconds + minutes * 60
+        if bestLap == 0.0 or seconds < bestLap then
+            bestLap = seconds
+        end
+        totalTime = totalTime + seconds
+
+        lapTimes.insert(lapTime)
     end
+    averageLap = totalTime / lapCount
+
+    -- Build Screen Data
+    local rows = tbl.newTbl()
+    rows.insert("Lap Count :   "..lapCount)
+    rows.insert("Average Lap : "..getMinutesSecondsHundrethsAsString(averageLap))
+    rows.insert("Best Lap :    "..getMinutesSecondsHundrethsAsString(bestLap))
+    rows.insert("Total Time :  "..getMinutesSecondsHundrethsAsString(totalTime))
+    rows.insert("Laps")
+    for i, v in ipairs(lapTimes.items()) do
+        rows.insert(i.." - "..v)
+    end
+
     io.close(lFile)
-    return lapTimes
+    return rows
     
 end
 
@@ -187,7 +222,7 @@ local function state_LAP_TIMES(event, touchState)
 
         local date = dateScroller.items[dateScroller.selected]
         local time = timesScroller.items[timesScroller.selected]
-        local filename = data_folder.."/"..findFile(date.." "..time)
+        local filename = data_folder.."/"..findFile(date, time)
 
         local lapTimes = loadFile(filename)
         if lapTimes == nil then
@@ -200,7 +235,7 @@ local function state_LAP_TIMES(event, touchState)
                 time_list_active = false
                 state = STATE.TIME_LIST
             end
-        end)
+        end, CENTER)
     end
 
     if lapScroller ~= nil then

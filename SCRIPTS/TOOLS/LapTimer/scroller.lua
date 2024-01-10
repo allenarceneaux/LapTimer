@@ -93,7 +93,7 @@ function lib.newPage()
         end -- run(...)
     
         function self.draw()
-            local flags = CENTER
+            local flags = self.flags
             local visibleCount = math.min(visibleCount, #self.items)
 
             for i = 0, visibleCount - 1 do

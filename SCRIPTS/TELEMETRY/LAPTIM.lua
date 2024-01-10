@@ -17,15 +17,11 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 
-
--- FIX VIEWER WITH NEW FILE NAMING CONVENTION
-
--- DISPLAY TIMER STATE, stopped. paused, running
-
 chdir("/SCRIPTS/TOOLS/LapTimer")
 
 local c = loadScript("Common")()
 local log = loadScript("Log")(c.app_name, c.script_folder)
+local dateLib = loadScript("Date")(log)
 local config = loadScript("Config")(log, c)
 
 -- Audio
@@ -45,7 +41,7 @@ local ANNOUNCE_FASTER = SoundFilesPath..'faster.wav'
 local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
 local POINT = SoundFilesPath..'point.wav'
 
-local SAVE_CSV_FILENAME = c.script_folder..'/DATA/LAPS.%s.csv'
+local data_folder = c.script_folder.."/DATA"
 
 -- --------------------------------------------------------------
 -- If inline
@@ -60,8 +56,8 @@ local StartTimeMilliseconds = -1
 local ElapsedTimeMilliseconds = 0
 local PreviousElapsedTimeMilliseconds = 0
 local LapTime = 0
-local LapTimeList = {tick = 0.0, time = getDateTime()}
-LapTimeList[#LapTimeList+1] = {tick = 0.0, time = getDateTime()}
+local LapTimeList = {tick = 0.0, dateTime = getDateTime()}
+LapTimeList[#LapTimeList+1] = {tick = 0.0, dateTime = getDateTime()}
 
 -- Display
 local TextSize = SMLSIZE
@@ -131,8 +127,8 @@ local function resetTimer()
   ElapsedTimeMilliseconds = 0
   PreviousElapsedTimeMilliseconds = 0
   LapTime = 0
-  LapTimeList = {tick = 0.0, time = getDateTime()}
-  LapTimeList[#LapTimeList+1] = {tick = 0.0, time = getDateTime()}
+  LapTimeList = {tick = 0.0, dateTime = getDateTime()}
+  LapTimeList[#LapTimeList+1] = {tick = 0.0, dateTime = getDateTime()}
   if config.SpeakAnnouncements == true then
     playFile(ANNOUNCE_RESET)
   end
@@ -166,7 +162,7 @@ end
 local function recordLap()
   LapTime = ElapsedTimeMilliseconds - PreviousElapsedTimeMilliseconds
   PreviousElapsedTimeMilliseconds = ElapsedTimeMilliseconds
-  LapTimeList[#LapTimeList+1] = {tick = LapTime, time = getDateTime()}
+  LapTimeList[#LapTimeList+1] = {tick = LapTime, dateTime = getDateTime()}
 
   handleLapSounds()
 end
@@ -230,17 +226,12 @@ end
 -- save laps
 -- --------------------------------------------------------------
 local function saveLaps()
-
-  local function formatTime(t)
-    return string.format('%02d%02d%02d%02d%02d%02d', t.year, t.mon, t.day,t.hour,t.min,t.sec)
-  end
-
-  local fn = string.format(SAVE_CSV_FILENAME,formatTime(LapTimeList[1].time))
+  local fn =  data_folder.."/"..dateLib.getFileName(LapTimeList[1].dateTime)     
   log.info("Saving laps to "..fn)
 
 	local f = io.open(fn, 'w')
 	for i = 2, #LapTimeList do
-		io.write(f, formatTime(LapTimeList[i].time), ',', i-1, ',',	
+		io.write(f, dateLib.formatDateTime(LapTimeList[i].dateTime), ',', 	
              getMinutesSecondsHundrethsAsString(LapTimeList[i].tick), "\r\n")
 	end
 	io.close(f)	
