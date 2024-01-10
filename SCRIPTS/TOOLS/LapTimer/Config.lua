@@ -26,10 +26,11 @@ local config = {
     SpeakLapNumber = true,
     SpeakLapTime = true,
 	SpeakAnnouncements = true,
-    BeepOnLap = true
+    BeepOnLap = true,
+	SpeakFasterSlower = true
 }
 
-local CONFIG_FILENAME = const.data_folder..'/'..const.app_name..'.cfg'
+local CONFIG_FILENAME = const.script_folder..'/DATA/'..const.app_name..'.cfg'
 
 -- --------------------------------------------------------------
 local function iif(cond, T, F)
@@ -50,9 +51,9 @@ function config.read()
 
 	f = io.open(CONFIG_FILENAME, 'r')
 	if f == nil then
-        log.info("No config file found, using defaults")
+        log.info("No config file found, using defaults to create a new one")
 		-- defaults will be used
-		return false
+		config.write()
 	end
 
 	local content = io.read(f, 1024)
@@ -75,6 +76,7 @@ function config.read()
 	config.SpeakLapTime = (c[4] == 'true')
 	config.SpeakAnnouncements = (c[5] == 'true')
 	config.BeepOnLap = (c[6] == 'true')
+	config.SpeakFasterSlower = (c[7] == 'true')
 
 	return true
 end
@@ -93,6 +95,7 @@ function config.write()
 	io.write(f, ',' .. iif(config.SpeakLapTime, 'true', 'false'))
 	io.write(f, ',' .. iif(config.SpeakAnnouncements, 'true', 'false'))
 	io.write(f, ',' .. iif(config.BeepOnLap, 'true', 'false'))
+	io.write(f, ',' .. iif(config.SpeakFasterSlower, 'true', 'false'))
 	io.close(f)
 end
 
@@ -106,6 +109,7 @@ function config.dump()
     log.info("SpeakLapTime: "..iif(config.SpeakLapTime, 'true', 'false'))
 	log.info("SpeakAnnouncements: "..iif(config.SpeakAnnouncements, 'true', 'false'))
     log.info("BeepOnLap: "..iif(config.BeepOnLap, 'true', 'false'))
+	log.info("SpeakBetterWorse: "..iif(config.SpeakFasterSlower, 'true', 'false'))
 end
 
 -- --------------------------------------------------------------

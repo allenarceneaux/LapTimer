@@ -17,7 +17,6 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 return {
-    data_folder = "/LapTimerData",
     app_name = "LapTimer",
     script_folder = "/SCRIPTS/TOOLS/LapTimer"
 }

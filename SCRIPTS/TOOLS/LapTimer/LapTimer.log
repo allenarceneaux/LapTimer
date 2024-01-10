@@ -1,89 +1,28 @@
 [LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
+[LapTimer][INFO] No config file found, using defaults to create a new one
 [LapTimer][INFO] Saving config file
 [LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving config file
+[LapTimer][INFO] No config file found, using defaults
+[LapTimer][INFO] Saving laps to /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2024-01-09 20:14:59.csv
 [LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving laps to /LapTimerData/LAPTIMES.2024-01-09 14:15:51.csv
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
-[LapTimer][INFO] state_TIME_LIST --> selected time: 01.05.00
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2023-12-30 01.05.00.csv
+[LapTimer][INFO] No config file found, using defaults
 [LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:42:00
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:42:00.csv
+[LapTimer][INFO] state_TIME_LIST --> selected time: 20:14:59
+[LapTimer][INFO] opening filename: /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2024-01-09 20:14:59.csv
 [LapTimer][INFO] Reading config file
+[LapTimer][INFO] No config file found, using defaults
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-29
+[LapTimer][INFO] state_TIME_LIST --> selected time: 03.05.44
+[LapTimer][INFO] opening filename: /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2023-12-29 03.05.44.csv
 [LapTimer][INFO] Reading config file
+[LapTimer][INFO] No config file found, using defaults
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] No config file found, using defaults
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] No config file found, using defaults
 [LapTimer][INFO] Saving config file
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:19:37
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:19:37.csv
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:42:00
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:42:00.csv
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:19:37
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:19:37.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:21:41
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:21:41.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:21:41
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:21:41.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:19:57
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:19:57.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 14:15:51
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 14:15:51.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:21:41
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:21:41.csv
-[LapTimer][INFO] state_TIME_LIST --> selected time: 12:21:41
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2024-01-09 12:21:41.csv
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
-[LapTimer][INFO] state_TIME_LIST --> selected time: 01.05.00
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2023-12-30 01.05.00.csv
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] state_DATE_LIST --> selected date: 2023-12-30
-[LapTimer][INFO] state_TIME_LIST --> selected time: 07.05.00
-[LapTimer][INFO] opening filename: /LapTimerData/LAPTIMES.2023-12-30 07.05.00.csv
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving laps to /LapTimerData/LAPTIMES.2024-01-09 17:26:36.csv
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Saving laps to /LapTimerData/LAPTIMES.2024-01-09 17:47:23.csv
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
-[LapTimer][INFO] Reading config file
+[LapTimer][INFO] state_DATE_LIST --> selected date: No Lap files found
+[LapTimer][WARN] state_DATE_LIST_refresh: trying to go to next page, but no Lap files available, ignoring.
+[LapTimer][INFO] state_DATE_LIST --> selected date: No Lap files found
+[LapTimer][WARN] state_DATE_LIST_refresh: trying to go to next page, but no Lap files available, ignoring.
 [LapTimer][INFO] Reading config file

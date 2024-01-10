@@ -22,6 +22,7 @@ local log = loadScript("lib_log")(c.app_name, c.script_folder)
 local tbl = loadScript("lib_tbl")(log)
 local page = loadScript("scroller")()
 
+local data_folder = c.script_folder.."/DATA"
 local fnames = {}
 
 -- state machine
@@ -65,7 +66,7 @@ local function state_DATE_LIST(event, touchState)
         -- filter to just csv files
         local dates = tbl.newTbl()
         fnames = {}
-        for fname in dir(c.data_folder) do
+        for fname in dir(data_folder) do
             if string.match(fname, ".csv") then
                 date = string.sub(fname, 10, 28)
                 fnames[date]=fname
@@ -194,7 +195,7 @@ local function state_LAP_TIMES(event, touchState)
 
         local date = dateScroller.items[dateScroller.selected]
         local time = timesScroller.items[timesScroller.selected]
-        local filename = c.data_folder.."/"..findFile(date.." "..time)
+        local filename = data_folder.."/"..findFile(date.." "..time)
 
         local lapTimes = loadFile(filename)
         if lapTimes == nil then

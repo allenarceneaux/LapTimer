@@ -242,13 +242,18 @@ print("drawPageTwo")
     
         lcd.drawText(1, 12, "Say Announcements:")
         lcd.drawText(106, 12, showYN(config.SpeakAnnouncements), getFieldFlags(0))
-    
+
+        lcd.drawText(1, 22, "Say Faster/Slower:")
+        lcd.drawText(106, 22, showYN(config.SpeakFasterSlower), getFieldFlags(1))
+
     end
 
-    navigate(event, 0, page-1, page)
+    navigate(event, 1, page-1, page)
 
     if field==0 then
         config.SpeakAnnouncements = valueToggle(event, config.SpeakAnnouncements)
+    elseif field==1 then
+        config.SpeakFasterSlower = valueToggle(event, config.SpeakFasterSlower)
     end
     return 0
 end

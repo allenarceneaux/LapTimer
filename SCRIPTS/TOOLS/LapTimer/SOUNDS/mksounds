@@ -6,6 +6,9 @@ function mkaudio() {
 
 
 mkaudio "Lap" lap.wav
+mkaudio "point" point.wav
+mkaudio "Faster Lap" faster.wav
+mkaudio "Slower Lap" slower.wav
 mkaudio "Lap times discarded" discard.wav
 mkaudio "Lap times saved" save.wav
 mkaudio "Lap timer started" started.wav

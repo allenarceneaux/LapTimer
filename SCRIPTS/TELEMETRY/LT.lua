@@ -40,7 +40,11 @@ local ANNOUNCE_RESUMED = SoundFilesPath.."resumed.wav"
 local ANNOUNCE_RESET = SoundFilesPath..'reset.wav'
 local ANNOUNCE_SAVE = SoundFilesPath..'save.wav'
 local ANNOUNCE_DISCARD = SoundFilesPath..'discard.wav'
-local SAVE_CSV_FILENAME = c.data_folder..'/LAPTIMES.%s.csv'
+local ANNOUNCE_FASTER = SoundFilesPath..'faster.wav'
+local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
+local POINT = SoundFilesPath..'point.wav'
+
+local SAVE_CSV_FILENAME = c.script_folder..'/DATA/LAPTIMES.%s.csv'
 
 
 -- --------------------------------------------------------------
@@ -94,8 +98,20 @@ local function handleLapSounds()
   end
 
   if config.SpeakLapTime == true then
-    playDuration(math.floor((LapTime/1000)+0.5), 0)
+    local sec, fsec = math.modf(LapTime/1000)
+    playNumber(sec, 0)
+    playFile(POINT)
+    playNumber(fsec*100, 0)
   end
+
+	if #LapTimeList > 2 and config.SpeakFasterSlower == true then
+    if LapTimeList[#LapTimeList].tick < LapTimeList[#LapTimeList - 1].tick then
+      playFile(ANNOUNCE_FASTER)
+    else
+      playFile(ANNOUNCE_SLOWER)
+    end
+	end
+
 end
 
 -- --------------------------------------------------------------
