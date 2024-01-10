@@ -1,0 +1,20 @@
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] Saving config file
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] Saving laps to /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2024-01-09.23:38:55.csv
+[LapTimer][INFO] SAVE_CSV_FILENAME: /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.%s.csv
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] Saving laps to /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2024-01-09.23:40:08.csv
+[LapTimer][INFO] SAVE_CSV_FILENAME: /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.%s.csv
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
+[LapTimer][INFO] state_TIME_LIST --> selected time: 23:40:08
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
+[LapTimer][INFO] state_TIME_LIST --> selected time: 12:19:37
+[LapTimer][INFO] opening filename: /SCRIPTS/TOOLS/LapTimer/DATA/LAPTIMES.2024-01-09 12:19:37.csv
+[LapTimer][INFO] state_TIME_LIST --> selected time: 23:38:55
+[LapTimer][INFO] Reading config file
+[LapTimer][INFO] state_DATE_LIST --> selected date: 2024-01-09
+[LapTimer][INFO] state_TIME_LIST --> selected time: 23:38:55
+[LapTimer][INFO] Reading config file

@@ -17,6 +17,11 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 
+
+-- FIX VIEWER WITH NEW FILE NAMING CONVENTION
+
+-- DISPLAY TIMER STATE, stopped. paused, running
+
 chdir("/SCRIPTS/TOOLS/LapTimer")
 
 local c = loadScript("Common")()
@@ -40,7 +45,7 @@ local ANNOUNCE_FASTER = SoundFilesPath..'faster.wav'
 local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
 local POINT = SoundFilesPath..'point.wav'
 
-local SAVE_CSV_FILENAME = c.script_folder..'/DATA/LAPTIMES.%s.csv'
+local SAVE_CSV_FILENAME = c.script_folder..'/DATA/LAPS.%s.csv'
 
 -- --------------------------------------------------------------
 -- If inline
@@ -227,13 +232,13 @@ end
 local function saveLaps()
 
   local function formatTime(t)
-    return string.format('%02d-%02d-%02d %02d:%02d:%02d', t.year, t.mon, t.day,t.hour,t.min,t.sec)
+    return string.format('%02d%02d%02d%02d%02d%02d', t.year, t.mon, t.day,t.hour,t.min,t.sec)
   end
 
   local fn = string.format(SAVE_CSV_FILENAME,formatTime(LapTimeList[1].time))
   log.info("Saving laps to "..fn)
 
-	local f = io.open(fn, 'a')
+	local f = io.open(fn, 'w')
 	for i = 2, #LapTimeList do
 		io.write(f, formatTime(LapTimeList[i].time), ',', i-1, ',',	
              getMinutesSecondsHundrethsAsString(LapTimeList[i].tick), "\r\n")

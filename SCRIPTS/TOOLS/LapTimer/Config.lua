@@ -21,8 +21,8 @@ local log, const  = ...
 
 -- --------------------------------------------------------------
 local config = {
-    TimerSwitch = getSwitchIndex("SE"..CHAR_UP),
-    LapSwitch = getSwitchIndex("SH"..CHAR_UP),
+    TimerSwitch = getSwitchIndex("L01"),
+    LapSwitch = getSwitchIndex("SC"..CHAR_DOWN),
     SpeakLapNumber = true,
     SpeakLapTime = true,
 	SpeakAnnouncements = true,
@@ -97,6 +97,7 @@ function config.write()
 	io.write(f, ',' .. iif(config.BeepOnLap, 'true', 'false'))
 	io.write(f, ',' .. iif(config.SpeakFasterSlower, 'true', 'false'))
 	io.close(f)
+	log.info("Config file saved")
 end
 
 -- --------------------------------------------------------------

@@ -39,7 +39,7 @@ You can use the Setup module to configure the Lap Timer.
 
 In the Setup page you can configure;
 
-* **Timer Switch** - This is the switch that arms and diarms the timer. This can be a Physical or Logical switch.
+* **Timer Switch** - This is the switch that arms and diarms the timer. This can be a Physical or Logical switch. Since most of the buttons on this controller is momentary it is better to use a logical switch for arming. Setup "*L01*" as "*STKY*" and assign both "*V1*" and "*V2" to a button down and select "*L01*" here. "*STKY*" with down and down make it a toggle.
 
 * **Lap Switch** - This is the Switch you use to indicate a lap was just completed. This can be a Physical or Logical switch, It is best for this to be a momentary 2 position switch. 
 
