@@ -17,6 +17,8 @@
 -- Author: Allen Arceneaux
 -- Date: 2024
 
+local c = loadScript("Common")()
+
 local menuItem = 0
 local VIEWER = 0
 local SETUP = 1
@@ -42,6 +44,7 @@ local function drawMenu()
 
     lcd.drawText( 20, 30, "View Laps")
     lcd.drawText( 78, 30, "Setup")
+    lcd.drawText(50, 1, c.version, BOLD)
     if menuItem == VIEWER then
       lcd.drawScreenTitle("LAP TIMER", 1, 4)
       lcd.drawFilledRectangle(59*(menuItem%2)+12, 23, 60, 22)
