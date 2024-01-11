@@ -16,3 +16,4 @@ mkaudio "Lap timer stopped" stopped.wav
 mkaudio "Lap timer reset" reset.wav
 mkaudio "Lap timer paused" paused.wav
 mkaudio "Lap timer resumed" resumed.wav
+mkaudio "First Lap Started" 1stlap.wav

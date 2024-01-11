@@ -39,6 +39,8 @@ local ANNOUNCE_SAVE = SoundFilesPath..'save.wav'
 local ANNOUNCE_DISCARD = SoundFilesPath..'discard.wav'
 local ANNOUNCE_FASTER = SoundFilesPath..'faster.wav'
 local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
+local ANNOUNCE_1ST_LAP = SoundFilesPath..'1stlap.wav'
+
 local POINT = SoundFilesPath..'point.wav'
 
 local data_folder = c.script_folder.."/DATA"
@@ -88,20 +90,26 @@ local function handleLapSounds()
     playTone(BeepFrequency, BeepLengthMilliseconds, 0)
   end
 
-  if config.SpeakLapNumber == true then
-    playFile(ANNOUNCE_LAP)
-    playNumber(#LapTimeList-1, 0)
+  if config.SpeakAnnouncements == true and #LapTimeList == 2 then
+    playFile(ANNOUNCE_1ST_LAP)
   end
 
-  if config.SpeakLapTime == true then
-    local sec, fsec = math.modf(LapTime/1000)
-    playNumber(sec, 0)
-    playFile(POINT)
-    playNumber(fsec*100, 0)
+  if config.SpeakLapNumber == true and #LapTimeList > 2 then
+    if config.SpeakLapNumber == true then
+      playFile(ANNOUNCE_LAP)
+      playNumber(#LapTimeList-2, 0)
+    end
+
+    if config.SpeakLapTime == true then
+      local sec, fsec = math.modf(LapTime/1000)
+      playNumber(sec, 0)
+      playFile(POINT)
+      playNumber(fsec*100, 0)
+    end
   end
 
-	if #LapTimeList > 2 and config.SpeakFasterSlower == true then
-    if LapTimeList[#LapTimeList].tick < LapTimeList[#LapTimeList - 1].tick then
+	if #LapTimeList > 3 and config.SpeakFasterSlower == true then
+    if LapTimeList[#LapTimeList].tick < LapTimeList[#LapTimeList - 2].tick then
       playFile(ANNOUNCE_FASTER)
     else
       playFile(ANNOUNCE_SLOWER)
@@ -174,8 +182,8 @@ local function displayTimerScreen()
   lcd.clear()
   lcd.drawText(0, 0,  "LAP TIMER", TextSize + INVERS)
   lcd.drawText(45, 0, getMinutesSecondsHundrethsAsString(ElapsedTimeMilliseconds), TextSize)
-  lcd.drawText(94, 0, "Lap", TextSize + INVERS)
-  lcd.drawText(112, 0, #LapTimeList-1, TextSize)
+  lcd.drawText(82, 0, "On Lap", TextSize + INVERS)
+  lcd.drawText(112, 0, iif(#LapTimeList> 1, #LapTimeList-1, 0), TextSize)
 
   local rowHeight = math.floor(TextHeight + 2)
   local rows = math.floor(LCD_H/rowHeight)
@@ -186,8 +194,8 @@ local function displayTimerScreen()
 
   lcd.drawText(x, y, " ")
 
-  -- i = 2 first entry is always 0:00.00 so skipping it
-  for i = #LapTimeList, 2, -1 do
+  -- i = 2 first entry is always 0:00.00 also 1st lap is not accurate since was triggered by timer switch so skipping it
+  for i = #LapTimeList, 3, -1 do
     if y % (rowsMod or 60) == 0 then
       c = c + 1 -- next column
       x = (LCD_W/2)*(c-1)
@@ -195,7 +203,7 @@ local function displayTimerScreen()
     end
     if (c > 1) and x > LCD_W - x/(c-1) then
     else
-      lcd.drawText(x, y, string.format("%02d %s", i-1, getMinutesSecondsHundrethsAsString(LapTimeList[i].tick)), TextSize)
+      lcd.drawText(x, y, string.format("%02d %s", i-2, getMinutesSecondsHundrethsAsString(LapTimeList[i].tick)), TextSize)
     end
     y = y + rowHeight
   end
@@ -206,7 +214,7 @@ end
 -- --------------------------------------------------------------
 local function calculateStats()
   local stats = {}
-	stats.lapCount = #LapTimeList - 1
+	stats.lapCount = #LapTimeList - 2
 	stats.averageLap = 0.0
 	stats.bestLap = 0.0
 	stats.totalTime = 0.0
@@ -230,7 +238,7 @@ local function saveLaps()
   log.info("Saving laps to "..fn)
 
 	local f = io.open(fn, 'w')
-	for i = 2, #LapTimeList do
+	for i = 3, #LapTimeList do
 		io.write(f, dateLib.formatDateTime(LapTimeList[i].dateTime), ',', 	
              getMinutesSecondsHundrethsAsString(LapTimeList[i].tick), "\r\n")
 	end
@@ -303,7 +311,7 @@ local function bg_func()
     pausePlayed = false
     if timerSwitchChanged and StartTimeMilliseconds == -1 then
       if config.SpeakAnnouncements == true then
-        playFile(ANNOUNCE_START)
+          playFile(ANNOUNCE_START)
       end
     else
       if not resumePlayed and config.SpeakAnnouncements == true and StartTimeMilliseconds ~= -1 then
