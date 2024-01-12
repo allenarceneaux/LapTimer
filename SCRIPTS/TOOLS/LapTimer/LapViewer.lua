@@ -200,12 +200,12 @@ local function loadFile(filename)
     -- Build Screen Data
     local rows = tbl.newTbl()
     rows.insert("Lap Count :   "..lapCount)
-    rows.insert("Average Lap : "..getMinutesSecondsHundrethsAsString(averageLap))
-    rows.insert("Best Lap :    "..getMinutesSecondsHundrethsAsString(bestLap))
-    rows.insert("Total Time :  "..getMinutesSecondsHundrethsAsString(totalTime))
+    rows.insert("Average Lap : "..getMinutesSecondsHundrethsAsString(averageLap).."s")
+    rows.insert("Best Lap :    "..getMinutesSecondsHundrethsAsString(bestLap).."s")
+    rows.insert("Total Time :  "..getMinutesSecondsHundrethsAsString(totalTime).."s")
     rows.insert("Laps")
     for i, v in ipairs(lapTimes.items()) do
-        rows.insert(i.." - "..v)
+        rows.insert(i.." - "..v.."s")
     end
 
     io.close(lFile)

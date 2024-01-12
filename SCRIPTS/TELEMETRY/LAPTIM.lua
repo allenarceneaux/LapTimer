@@ -181,7 +181,7 @@ end
 local function displayTimerScreen()
   lcd.clear()
   lcd.drawText(0, 0,  "LAP TIMER", TextSize + INVERS)
-  lcd.drawText(45, 0, getMinutesSecondsHundrethsAsString(ElapsedTimeMilliseconds), TextSize)
+  lcd.drawText(45, 0, getMinutesSecondsHundrethsAsString(ElapsedTimeMilliseconds).."s", TextSize)
   lcd.drawText(82, 0, "On Lap", TextSize + INVERS)
   lcd.drawText(112, 0, iif(#LapTimeList> 1, #LapTimeList-1, 0), TextSize)
 
@@ -203,7 +203,7 @@ local function displayTimerScreen()
     end
     if (c > 1) and x > LCD_W - x/(c-1) then
     else
-      lcd.drawText(x, y, string.format("%02d %s", i-2, getMinutesSecondsHundrethsAsString(LapTimeList[i].tick)), TextSize)
+      lcd.drawText(x, y, string.format("%02d %ss", i-2, getMinutesSecondsHundrethsAsString(LapTimeList[i].tick)), TextSize)
     end
     y = y + rowHeight
   end
@@ -277,9 +277,9 @@ local function displaySaveScreen(event)
   lcd.drawText(10, 14, 'Total Laps:')
   lcd.drawText(80, 14, stats.lapCount)
   lcd.drawText(10, 26, 'Average Lap:')
-  lcd.drawText(80, 26, getMinutesSecondsHundrethsAsString(stats.averageLap*1000))
+  lcd.drawText(80, 26, getMinutesSecondsHundrethsAsString(stats.averageLap*1000).."s")
   lcd.drawText(10, 38, 'Total Time:')
-  lcd.drawText(80, 38, getMinutesSecondsHundrethsAsString(stats.totalTime*1000))
+  lcd.drawText(80, 38, getMinutesSecondsHundrethsAsString(stats.totalTime*1000).."s")
 
   lcd.drawText(2, 55, ' Save ', iif(saveState, TextSize + INVERS, TextSize))
   lcd.drawText(35, 55, ' Discard ', iif(not saveState, TextSize + INVERS, TextSize))
