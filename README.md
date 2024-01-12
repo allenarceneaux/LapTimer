@@ -17,13 +17,19 @@ Timer Usage
 
 To access the lap timer, press the "*TELE*" button. This will then display any Telemetry screens you have defined. If you have multiple screens, press the *PAGE>* button until you are on the lap timer screen.
 
+![image](doc-images/Laptim1.bmp)
+
 This screen displays the current timer, lap and lap times. Lap times will roll of the screen as it runs out of space but they are kept in memory which can be saved later.
 
 The timer will start when the "*Timer Switch*" is triggered. The lap is recorded when the "*Lap Switch*" is triggered.
 
+![image](doc-images/Laptim2.bmp)
+
 When you are finished with your run un-triggrt the "*Timer Switch*". This will put you in "*Pause*" mode. From here you can re-trigger the "*Timer Switch*" and resume taking laps.
 
 While "*Paused*" you can trigger the "*Lap Switch*". This will present a screen showing the "*Total Laps*", "*Average Lap*", and "*Total Time*". Here you can select to "*Save*" or "*Discard*" the lap times that were captured. Selecting either option will then reset the timer and you are ready for the next recording.
+
+![image](doc-images/Laptim3.bmp)
 
 The lap times are saved to a file in the `/SCRIPTS/TOOLS/LapTimer/DATA` folder.
 
@@ -32,10 +38,15 @@ Tool Usage
 
 Under the SYS button, and in the TOOLS menu you should find "*LapTimer*". This menu allows acces to the lap viewer and setup modules. Any files saved from the LapTimer telemetry page will be viewable from the View Laps module. 
 
+![image](doc-images/MainMenu.bmp)
+
 Setup Usage
 -----------
 
 You can use the Setup module to configure the Lap Timer.
+
+![image](doc-images/Setup1.bmp)
+![image](doc-images/Setup2.bmp)
 
 In the Setup page you can configure;
 
@@ -53,10 +64,15 @@ In the Setup page you can configure;
 
 * **Speak Faster/Slower** - If *Yes* when the "*Lap Switch*" is triggered and a lap can be computed. your lap time will be compared and faster or slower will be spoken.
 
+
 You can move from page to page using the "*PAGE<*" and "*PAGE>*" buttons to navigate the pages. Use the "*MENU WHEEL*" to select a field to change. Press the "*MENU WHEEL*" to lock to the value. Scroll the "*MENU WHEEL*" to changes the value. Press the "*MENU WHEEL*" to lock the value in and allow selection of the other values. When you use the "*RTN*" button changes are automatically saved. 
 
 View Laps Usage
 ---------------
+
+![image](doc-images/Viewer1.bmp)
+![image](doc-images/Viewer2.bmp)
+![image](doc-images/Viewer3.bmp)
 
 The "*View Laps*" module will display all the files located in the `/SCRIPTS/TOOLS/LapTimer/DATA` folder. It will present them by date. Use the "*MENU WHEEL*" to select a date, then press the "*MENU WHEEL*" to navigate to the next page which lists the times that the laps were taken. Use the "*MENU WHEEL*" to select a time, then press the "*MENU WHEEL*" to navigate to the next page which lists the lap times. Use the "*MENU WHEEL*" to scroll the screen if applicable. Use the "*RTN*" button to back out of the screen(s).
 
