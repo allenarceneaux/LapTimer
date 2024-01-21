@@ -2,8 +2,6 @@
 
 This script provides a robust lap timing function for the transmitter. It is possible to save and review the captuered lap times
 
-See YOUTUBE LINK for a quick demo of the Lap Timer.
-
 Installation
 ------------
 
