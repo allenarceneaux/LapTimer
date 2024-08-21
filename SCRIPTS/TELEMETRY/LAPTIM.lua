@@ -40,6 +40,8 @@ local ANNOUNCE_DISCARD = SoundFilesPath..'discard.wav'
 local ANNOUNCE_FASTER = SoundFilesPath..'faster.wav'
 local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
 local ANNOUNCE_1ST_LAP = SoundFilesPath..'1stlap.wav'
+local ANNOUNCE_SECONDS = SoundFilesPath..'seconds.wav'
+local ANNOUNCE_GO = SoundFilesPath..'go.wav'
 
 local POINT = SoundFilesPath..'point.wav'
 
@@ -61,6 +63,7 @@ local MaxSpeed = 0
 local LapTime = 0
 local LapTimeList = {tick = 0.0, dateTime = getDateTime()}
 LapTimeList[#LapTimeList+1] = {tick = 0.0, dateTime = getDateTime()}
+local countDownTimer = 0
 
 -- Display
 local TextSize = SMLSIZE
@@ -213,6 +216,11 @@ local function displayTimerScreen()
     end
     y = y + rowHeight
   end
+
+  if config.CountDownFrom > 0 and countDownTimer > 0 then
+    lcd.drawText(45, 14, countDownTimer, XXLSIZE)
+  end
+
 end
 
 -- --------------------------------------------------------------
@@ -303,6 +311,27 @@ local function rnd(v,d)
 end
 
 -- --------------------------------------------------------------
+-- PlayFile Once function
+-- --------------------------------------------------------------
+local played = false
+local lastTimePlayed = 0
+local function playOnce(n, f)
+  if not played then
+    if n >  -1 then
+      playNumber(n, 0)
+    end
+    if f ~= -1 then
+      playFile(f)
+    end
+    played = true
+    lastTimePlayed = getTimeMilliseconds()
+  end
+  if getTimeMilliseconds() - lastTimePlayed > 999 then
+    played = false
+  end
+end
+
+-- --------------------------------------------------------------
 -- called periodically
 -- --------------------------------------------------------------
 local lastLapSwitchValue = false
@@ -329,6 +358,10 @@ local function bg_func()
     if timerSwitchChanged and StartTimeMilliseconds == -1 then
       if config.SpeakAnnouncements == true then
           playFile(ANNOUNCE_START)
+          if config.CountDownFrom > 0 then
+            playNumber(config.CountDownFrom, 0)
+            playFile(ANNOUNCE_SECONDS)
+          end
       end
     else
       if not resumePlayed and config.SpeakAnnouncements == true and StartTimeMilliseconds ~= -1 then
@@ -337,6 +370,22 @@ local function bg_func()
       end
     end
     startTimer()
+    if config.CountDownFrom > 0 then
+      countDownTimer = config.CountDownFrom-rnd(ElapsedTimeMilliseconds/1000,0)
+    end
+
+    -- Countdown announcement
+    if config.SpeakAnnouncements == true and config.CountDownFrom > 0 then
+      if countDownTimer == 0 then
+        playOnce(-1, ANNOUNCE_GO)
+      end
+      if countDownTimer < 11 and countDownTimer > 0 then
+        playOnce(countDownTimer, -1)
+      end
+      if countDownTimer == 15 then
+        playOnce(countDownTimer, ANNOUNCE_SECONDS)
+      end
+    end
 
     -- TimerSwitch and LapSwitch On so record the lap time
     if lapSwitchChanged and lapSwitchValue then

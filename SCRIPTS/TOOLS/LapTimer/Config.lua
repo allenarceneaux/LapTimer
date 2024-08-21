@@ -27,7 +27,8 @@ local config = {
     SpeakLapTime = true,
 	SpeakAnnouncements = true,
     BeepOnLap = true,
-	SpeakFasterSlower = true
+	SpeakFasterSlower = true,
+	CountDownFrom = 30
 }
 
 local CONFIG_FILENAME = const.script_folder..'/DATA/'..const.app_name..'.cfg'
@@ -70,13 +71,14 @@ function config.read()
 		c[#c + 1] = value
 	end
 
-	config.TimerSwitch = tonumber(c[1])
-	config.LapSwitch = tonumber(c[2])
-	config.SpeakLapNumber = (c[3] == 'true')
-	config.SpeakLapTime = (c[4] == 'true')
-	config.SpeakAnnouncements = (c[5] == 'true')
-	config.BeepOnLap = (c[6] == 'true')
-	config.SpeakFasterSlower = (c[7] == 'true')
+	config.TimerSwitch = iif(c[1]==nil, config.TimerSwitch, tonumber(c[1]))
+	config.LapSwitch = iif(c[2]==nil, config.LapSwitch, tonumber(c[2]))
+	config.SpeakLapNumber = iif(c[3]==nil, config.SpeakLapNumber, (c[3] == 'true'))
+	config.SpeakLapTime = iif(c[4]==nil, config.SpeakLapTime, (c[4] == 'true'))
+	config.SpeakAnnouncements = iif(c[5]==nil, config.SpeakAnnouncements, (c[5] == 'true'))
+	config.BeepOnLap = iif(c[6]==nil, config.BeepOnLap, (c[6] == 'true'))
+	config.SpeakFasterSlower = iif(c[7]==nil, config.SpeakFasterSlower, (c[7] == 'true'))
+	config.CountDownFrom = iif(c[8]==nil, config.CountDownFrom, tonumber(c[8]))
 
 	return true
 end
@@ -96,6 +98,7 @@ function config.write()
 	io.write(f, ',' .. iif(config.SpeakAnnouncements, 'true', 'false'))
 	io.write(f, ',' .. iif(config.BeepOnLap, 'true', 'false'))
 	io.write(f, ',' .. iif(config.SpeakFasterSlower, 'true', 'false'))
+	io.write(f, ',' .. config.CountDownFrom)
 	io.close(f)
 	log.info("Config file saved")
 end
@@ -111,6 +114,7 @@ function config.dump()
 	log.info("SpeakAnnouncements: "..iif(config.SpeakAnnouncements, 'true', 'false'))
     log.info("BeepOnLap: "..iif(config.BeepOnLap, 'true', 'false'))
 	log.info("SpeakBetterWorse: "..iif(config.SpeakFasterSlower, 'true', 'false'))
+    log.info("CountDownFrom: "..config.CountDownFrom)   
 end
 
 -- --------------------------------------------------------------
@@ -120,6 +124,6 @@ if config.read() == false then
     log.info("No config file found, using defaults")
 end
 
--- config.dump()
+config.dump()
 
 return config

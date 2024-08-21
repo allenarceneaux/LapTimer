@@ -240,14 +240,18 @@ print("drawPageTwo")
         lcd.drawText(1, 22, "Say Faster/Slower:")
         lcd.drawText(106, 22, showYN(config.SpeakFasterSlower), getFieldFlags(1))
 
+        lcd.drawText(1, 32, "Count Down Timer:")
+        lcd.drawText(106, 32, config.CountDownFrom, getFieldFlags(2))
     end
 
-    navigate(event, 1, page-1, page)
+    navigate(event, 2, page-1, page)
 
     if field==0 then
         config.SpeakAnnouncements = valueToggle(event, config.SpeakAnnouncements)
     elseif field==1 then
         config.SpeakFasterSlower = valueToggle(event, config.SpeakFasterSlower)
+    elseif field==2 then
+        config.CountDownFrom = switchIncDec(event, config.CountDownFrom)
     end
     return 0
 end
