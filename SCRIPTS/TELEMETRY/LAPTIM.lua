@@ -42,6 +42,8 @@ local ANNOUNCE_SLOWER = SoundFilesPath..'slower.wav'
 local ANNOUNCE_1ST_LAP = SoundFilesPath..'1stlap.wav'
 local ANNOUNCE_SECONDS = SoundFilesPath..'seconds.wav'
 local ANNOUNCE_GO = SoundFilesPath..'go.wav'
+local ANNOUNCE_LASTLAP = SoundFilesPath..'lastlap.wav'
+local ANNOUNCE_RACEOVER = SoundFilesPath..'raceovr.wav'
 
 local POINT = SoundFilesPath..'point.wav'
 
@@ -102,6 +104,14 @@ local function handleLapSounds()
     if config.SpeakLapNumber == true then
       playFile(ANNOUNCE_LAP)
       playNumber(#LapTimeList-2, 0)
+
+      if config.NumberOfLaps > 0 and #LapTimeList-1 == config.NumberOfLaps then
+        playFile(ANNOUNCE_LASTLAP)
+      end
+
+      if config.NumberOfLaps > 0 and #LapTimeList-1 > config.NumberOfLaps then
+        playFile(ANNOUNCE_RACEOVER)
+      end
     end
 
     if config.SpeakLapTime == true then
@@ -217,10 +227,9 @@ local function displayTimerScreen()
     y = y + rowHeight
   end
 
-  if config.CountDownFrom > 0 and countDownTimer > 0 then
+  if config.CountDownFrom > 0 and countDownTimer > 0 and #LapTimeList == 1 then
     lcd.drawText(45, 14, countDownTimer, XXLSIZE)
   end
-
 end
 
 -- --------------------------------------------------------------
@@ -358,7 +367,7 @@ local function bg_func()
     if timerSwitchChanged and StartTimeMilliseconds == -1 then
       if config.SpeakAnnouncements == true then
           playFile(ANNOUNCE_START)
-          if config.CountDownFrom > 0 then
+          if config.CountDownFrom > 0 and #LapTimeList == 1 then
             playNumber(config.CountDownFrom, 0)
             playFile(ANNOUNCE_SECONDS)
           end
@@ -375,7 +384,7 @@ local function bg_func()
     end
 
     -- Countdown announcement
-    if config.SpeakAnnouncements == true and config.CountDownFrom > 0 then
+    if config.SpeakAnnouncements == true and config.CountDownFrom > 0 and #LapTimeList == 1 then
       if countDownTimer == 0 then
         playOnce(-1, ANNOUNCE_GO)
       end

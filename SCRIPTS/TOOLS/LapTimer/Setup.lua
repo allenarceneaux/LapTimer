@@ -242,9 +242,13 @@ print("drawPageTwo")
 
         lcd.drawText(1, 32, "Count Down Timer:")
         lcd.drawText(106, 32, config.CountDownFrom, getFieldFlags(2))
+        lcd.drawText(122, 32, "s")
+
+        lcd.drawText(1, 42, "Number of Laps:")
+        lcd.drawText(106, 42, config.NumberOfLaps, getFieldFlags(3))
     end
 
-    navigate(event, 2, page-1, page)
+    navigate(event, 3, page-1, page)
 
     if field==0 then
         config.SpeakAnnouncements = valueToggle(event, config.SpeakAnnouncements)
@@ -252,6 +256,8 @@ print("drawPageTwo")
         config.SpeakFasterSlower = valueToggle(event, config.SpeakFasterSlower)
     elseif field==2 then
         config.CountDownFrom = switchIncDec(event, config.CountDownFrom)
+    elseif field==3 then
+        config.NumberOfLaps = switchIncDec(event, config.NumberOfLaps)
     end
     return 0
 end

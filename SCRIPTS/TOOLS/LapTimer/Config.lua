@@ -28,7 +28,8 @@ local config = {
 	SpeakAnnouncements = true,
     BeepOnLap = true,
 	SpeakFasterSlower = true,
-	CountDownFrom = 30
+	CountDownFrom = 30,
+	NumberOfLaps = 6
 }
 
 local CONFIG_FILENAME = const.script_folder..'/DATA/'..const.app_name..'.cfg'
@@ -79,6 +80,7 @@ function config.read()
 	config.BeepOnLap = iif(c[6]==nil, config.BeepOnLap, (c[6] == 'true'))
 	config.SpeakFasterSlower = iif(c[7]==nil, config.SpeakFasterSlower, (c[7] == 'true'))
 	config.CountDownFrom = iif(c[8]==nil, config.CountDownFrom, tonumber(c[8]))
+	config.NumberOfLaps = iif(c[9]==nil, config.NumberOfLaps, tonumber(c[9]))
 
 	return true
 end
@@ -99,6 +101,7 @@ function config.write()
 	io.write(f, ',' .. iif(config.BeepOnLap, 'true', 'false'))
 	io.write(f, ',' .. iif(config.SpeakFasterSlower, 'true', 'false'))
 	io.write(f, ',' .. config.CountDownFrom)
+	io.write(f, ',' .. config.NumberOfLaps)
 	io.close(f)
 	log.info("Config file saved")
 end
@@ -115,6 +118,7 @@ function config.dump()
     log.info("BeepOnLap: "..iif(config.BeepOnLap, 'true', 'false'))
 	log.info("SpeakBetterWorse: "..iif(config.SpeakFasterSlower, 'true', 'false'))
     log.info("CountDownFrom: "..config.CountDownFrom)   
+    log.info("CountDownFrom: "..config.NumberOfLaps)   
 end
 
 -- --------------------------------------------------------------
