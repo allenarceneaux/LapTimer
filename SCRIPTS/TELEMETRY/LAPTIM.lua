@@ -227,7 +227,7 @@ local function displayTimerScreen()
     y = y + rowHeight
   end
 
-  if config.CountDownFrom > 0 and countDownTimer > 0 and #LapTimeList == 1 then
+  if config.CountDownFrom > 0 and countDownTimer > 0 and #LapTimeList == 1 and StartTimeMilliseconds ~= -1 then
     lcd.drawText(45, 14, countDownTimer, XXLSIZE)
   end
 end
@@ -257,7 +257,7 @@ end
 -- save laps
 -- --------------------------------------------------------------
 local function saveLaps()
-  local fn =  data_folder.."/"..dateLib.getFileName(LapTimeList[1].dateTime)     
+  local fn =  data_folder.."/"..dateLib.makeFileName(model.getInfo().name, LapTimeList[1].dateTime)     
   log.info("Saving laps to "..fn)
 
 	local f = io.open(fn, 'w')

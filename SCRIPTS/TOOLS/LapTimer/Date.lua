@@ -20,6 +20,7 @@
 local log  = ...
 
 DATE = {
+    model = "",
     year = 0,
     mon = 0,
     day = 0,
@@ -28,19 +29,32 @@ DATE = {
     sec = 0,
 }
 function DATE.parseFileName(fn)
-    DATE.year, DATE.mon, DATE.day, DATE.hour, DATE.min, DATE.sec = string.match(fn, "LAPS.(%d%d%d%d)(%d%d)(%d%d)(%d%d)(%d%d)(%d%d).csv")
+    DATE.model, DATE.year, DATE.mon, DATE.day, DATE.hour, DATE.min, DATE.sec = string.match(fn, "(%a+).(%d%d%d%d)(%d%d)(%d%d)(%d%d)(%d%d)(%d%d).csv")
     return DATE
+end
+
+function DATE.makeFileName(model, dateTime) 
+    DATE = dateTime
+    return string.format("%s.%04d%02d%02d%02d%02d%02d.csv", model, dateTime.year, dateTime.mon, dateTime.day, dateTime.hour, dateTime.min, dateTime.sec)
 end
 
 function DATE.getFileName(dateTime) 
     DATE = dateTime
-    return string.format("LAPS.%04d%02d%02d%02d%02d%02d.csv", dateTime.year, dateTime.mon, dateTime.day, dateTime.hour, dateTime.min, dateTime.sec)
+    return string.format("%s.%04d%02d%02d%02d%02d%02d.csv", dateTime.model, dateTime.year, dateTime.mon, dateTime.day, dateTime.hour, dateTime.min, dateTime.sec)
 end
 
 function DATE.parseDateTime(date, time) -- from string values
-    DATE.year, DATE.mon, DATE.day = string.match(date, "(%d+)-(%d+)-(%d+)")
-    DATE.hour, DATE.min, DATE.sec = string.match(time, "(%d+):(%d+):(%d+)")
+    DATE.model, DATE.year, DATE.mon, DATE.day = string.match(date, "(%a+) (%d+)-(%d+)-(%d+)")
+    DATE.model, DATE.hour, DATE.min, DATE.sec = string.match(time, "(%a+) (%d+):(%d+):(%d+)")
     return DATE
+end
+
+function DATE.getNameDate()
+    return string.format("%s %04d-%02d-%02d", DATE.model, DATE.year, DATE.mon, DATE.day)
+end
+
+function DATE.getNameTime()
+    return string.format("%s %02d:%02d:%02d", DATE.model, DATE.hour, DATE.min, DATE.sec)
 end
 
 function DATE.getDate()
@@ -61,7 +75,7 @@ function DATE.getDateTime()
 end
 
 function DATE.dump()
-    log.info("DATE: %04d-%02d-%02d %02d:%02d:%02d", DATE.year, DATE.mon, DATE.day, DATE.hour, DATE.min, DATE.sec)
+    log.info("DATE: %s %04d-%02d-%02d %02d:%02d:%02d", DATE.model, DATE.year, DATE.mon, DATE.day, DATE.hour, DATE.min, DATE.sec)
 end
 
 return DATE

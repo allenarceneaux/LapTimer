@@ -70,7 +70,7 @@ local function state_DATE_LIST(event, touchState)
             if string.match(fname, ".csv") then
                 local date = dateLib.parseFileName(fname)
                 fnames[#fnames+1]=fname
-                dates.insert(date.getDate())
+                dates.insert(date.getNameDate())
             end
         end
 
@@ -118,8 +118,8 @@ local function state_TIME_LIST(event, touchState)
 
         for _, v in ipairs(fnames) do
             local date = dateLib.parseFileName(v)
-            if date.getDate() == selected_date then
-                times.insert(date.getTime())
+            if date.getNameDate() == selected_date then
+                times.insert(date.getNameTime())
             end
         end
 
@@ -146,7 +146,7 @@ end
 -- --------------------------------------------------------------
 local function findFile(date, time)
     local dt = dateLib.parseDateTime(date, time)
-    local fn = dateLib.getFileName(dt)
+    local fn = dateLib.getFileName(dt) 
     for _,v in ipairs(fnames) do
         if v == fn then
             return v
@@ -166,6 +166,8 @@ local function loadFile(filename)
     end
 
     log.info("opening filename: %s", filename)
+
+    local date = dateLib.parseFileName(filename)
 
     local info = fstat(filename)
     local lFile = io.open(filename, "r")
@@ -199,6 +201,9 @@ local function loadFile(filename)
 
     -- Build Screen Data
     local rows = tbl.newTbl()
+    rows.insert(date.model)
+    rows.insert(date.getDate())
+    rows.insert(date.getTime())
     rows.insert("Lap Count :   "..lapCount)
     rows.insert("Average Lap : "..getMinutesSecondsHundrethsAsString(averageLap).."s")
     rows.insert("Best Lap :    "..getMinutesSecondsHundrethsAsString(bestLap).."s")
