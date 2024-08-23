@@ -4,6 +4,7 @@ This script provides a robust lap timing function for the transmitter. It is pos
 
 Installation
 ------------
+YOU DO NOT NEED ALL THE FILES ABOVE, ONLY THE ONES LISTED BELOW
 
 1. Copy `SCRIPTS/TELEMETRY/LapTim.lua` to your SD card's `SCRIPTS/TELEMETRY` folder. Create the folder if it does not exist.
 2. Copy the folder `SCRIPTS/TOOLS/LapTimer` to your SD card's `/SCRIPTS/TOOLS` folder. Create the folder if it does not exist.
@@ -62,6 +63,9 @@ In the Setup page you can configure;
 
 * **Speak Faster/Slower** - If *Yes* when the "*Lap Switch*" is triggered and a lap can be computed. your lap time will be compared and faster or slower will be spoken.
 
+* **Count down timer - Sets the start timer in seconds. If it's zero then this function does nothing.
+
+* **Number of laps - sets the number of laps before it announces race over. If it's zero then this function does nothing.
 
 You can move from page to page using the "*PAGE<*" and "*PAGE>*" buttons to navigate the pages. Use the "*MENU WHEEL*" to select a field to change. Press the "*MENU WHEEL*" to lock to the value. Scroll the "*MENU WHEEL*" to changes the value. Press the "*MENU WHEEL*" to lock the value in and allow selection of the other values. When you use the "*RTN*" button changes are automatically saved. 
 
